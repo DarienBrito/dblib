@@ -1,8 +1,6 @@
 /*_____________________________________________________________
 
 dbLib [additions to SuperCollider]
-
-< Report general amplitude >
 Copyright (C) <2015>
 
 by Darien Brito
@@ -23,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ________________________________________________________________*/
 
+// <Report general amplitude as OSC messages>
 
 PeakAmpTrig  {
 	classvar peakSynth, peakFunc, activeSynth, oscFunc, net, osc;

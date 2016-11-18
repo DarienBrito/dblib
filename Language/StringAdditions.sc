@@ -1,8 +1,6 @@
 /*_____________________________________________________________
 
 dbLib [additions to SuperCollider]
-
-< Binarize lists >
 Copyright (C) <2015>
 
 by Darien Brito
@@ -23,18 +21,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ________________________________________________________________*/
 
-+ SequenceableCollection {
+// <A hex string to decimal base converter>
 
-	// Transform a sequenceable collection to only 1s or 0s
++ String {
 
-	binarize {
-		^this.collect{|item| if(item > 0) {1} {0}}
-	}
-
-	binarizeInvert {
-		var new = this.binarize;
-		^new.collect{|item| if(item != 0) {0} {1}}
+	// Transform a hex string to decimal base
+	hex2decimal {
+		var string = this.toUpper;
+		var digits = "0123456789ABCDEF";
+		var val = 0;
+		string = string.replace("#","");
+		string.do{|items|
+		var place = digits.find(items.asString);
+		val = (16*val) + place;
+	};
+	^val
 	}
 
 }
-

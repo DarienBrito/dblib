@@ -1,8 +1,6 @@
 /*_____________________________________________________________
 
 dbLib [additions to SuperCollider]
-
-<A hex string to decimal base converter>
 Copyright (C) <2015>
 
 by Darien Brito
@@ -23,19 +21,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ________________________________________________________________*/
 
-+ String {
+// <Pseudo Ugens for non-adjacent panning>
 
-	// Transform a hex string to decimal base
-	hex2decimal {
-		var string = this.toUpper;
-		var digits = "0123456789ABCDEF";
-		var val = 0;
-		string = string.replace("#","");
-		string.do{|items|
-		var place = digits.find(items.asString);
-		val = (16*val) + place;
-	};
-	^val
+Pan2_8 {
+	*ar { |in, from = 0, to = 1, pos = 0, mul = 1|
+		var delta_from, delta_to, sig, pan, mapPos;
+		delta_from = Array.fill(8, { |i| ((from - i).abs < 1e-5) });
+		delta_to = Array.fill(8, { |i| ((to - i).abs < 1e-5) });
+		mapPos = pos.linlin(0.0, 1.0, -1, 1);
+		pan = Pan2.ar(in, mapPos, mul);
+		sig = (pan[0] * delta_from) + (pan[1] * delta_to);
+		^sig
+	}
+
+	*kr { |in, from = 0, to = 1, pos = 0, mul = 1|
+		var delta_from, delta_to, sig, pan;
+		delta_from = Array.fill(8, { |i| ((from - i).abs < 1e-5) });
+		delta_to = Array.fill(8, { |i| ((to - i).abs < 1e-5) });
+		pos = pos.linlin(0.0, 1.0, -1, 1);
+		pan = Pan2.kr(in, pos.linlin(0.0, 1.0, -1, 1), mul);
+		sig = (pan[0] * delta_from) + (pan[1] * delta_to);
+		^sig;
 	}
 
 }
+

@@ -13,6 +13,9 @@ http://creativecommons.org/licenses/by-nc-sa/4.0/
 
 ________________________________________________________________*/
 
+// < Transform to base >
+
+
 + Integer {
 
 	// Transform an int to base N
