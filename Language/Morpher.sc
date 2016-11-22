@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ________________________________________________________________*/
 
-// <An interpolation utility>
+// <An interpolation utility extracted from Alberto de Campo's Cloud Gen Mini>
 
 Morpher {
 	var <morphTime, <stepsPerSec, <curve;
