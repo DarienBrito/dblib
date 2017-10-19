@@ -70,7 +70,11 @@ GUIStyler {
 	}
 
 	getWindow { | name = "My window", bounds, border = false, scroll = false |
-		window = View(master, bounds)
+		var window;
+		if(scroll)
+		{ window = ScrollView(master, bounds) }
+		{ window = View(master, bounds) };
+		window
 		.alpha_(alpha)
 		.alwaysOnTop_(true)
 		.background = backgroundColor;
@@ -316,12 +320,11 @@ GUIStyler {
 		^pop
 	}
 
-
 	getButtonGrid {| num, labels, offsetX, offsetY |
 	}
 
-	getCheckBox{ |parent,text|
-		var check = CheckBox(parent,20@20,text)
+	getCheckBox{ |parent,text, boundX=20, boundY=20|
+		var check = CheckBox(parent,boundX@boundY,text)
 		.background_(backgroundColor)
 		.font_(font);
 		^check;

@@ -33,4 +33,18 @@ ________________________________________________________________*/
 			^output.asInt;
 		} {"Base has to be > than 1".warn; ^nil}
 	}
+
+	romanize {
+		var n = this;
+		var decimalValue = [ 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 ];
+		var romanNumeral = [ 'M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I' ];
+		var romanized = '';
+		decimalValue.do{|i, counter|
+			while({i <= n}, {
+				romanized = romanized ++ romanNumeral[counter];
+				n = n - decimalValue[counter]
+			});
+		};
+		^romanized;
+	}
 }

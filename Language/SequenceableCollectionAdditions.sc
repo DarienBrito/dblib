@@ -36,5 +36,9 @@ ________________________________________________________________*/
 		^new.collect{|item| if(item != 0) {0} {1}}
 	}
 
+	binarizeThreshold { | t |
+		^this.collect{|item| if(item > t) {1} {0}}
+	}
+
 }
 
