@@ -25,15 +25,17 @@
 Analysis_PV {
 	var <file, <outPath, soundBuf, analysisBuf, nChans;
 	var <>hopsize;
+	var callbackFunc;
 
-	*new { | file, outPath, hopsize = 0.25 |
-		^super.new.init(file, outPath, hopsize)
+	*new { | file, outPath, hopsize = 0.25, callbackFunc=nil|
+		^super.new.init(file, outPath, hopsize, callbackFunc)
 	}
 
-	init { | file_, outPath_, hopsize_ |
+	init { | file_, outPath_, hopsize_, callbackFunc_|
 		file = file_;
 		outPath = outPath_;
 		hopsize = hopsize_;
+		callbackFunc = callbackFunc_;
 		this.analysisSynths();
 		this.listener();
 		this.getFileData();
@@ -97,6 +99,9 @@ Analysis_PV {
 			counter = counter + 1;
 			if(counter == 1){
 				analysisBuf.write(outPath ++ ".scpv", "aiff", "float32");
+				if(callbackFunc != nil) {
+					callbackFunc.();
+				};
 				("Done. Analysis file exported to %".format(outPath)).postln;
 				Buffer.freeAll;
 				OSCdef(\pv_analysis_listener).free;
