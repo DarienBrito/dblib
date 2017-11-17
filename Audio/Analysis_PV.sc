@@ -26,15 +26,17 @@ Analysis_PV {
 	var <file, <outPath, soundBuf, analysisBuf, nChans;
 	var <>hopsize;
 	var callbackFunc;
+	var fftSize;
 
-	*new { | file, outPath, hopsize = 0.25, callbackFunc=nil|
-		^super.new.init(file, outPath, hopsize, callbackFunc)
+	*new { | file, outPath, hopsize = 0.5, fftSize = 4096, callbackFunc=nil|
+		^super.new.init(file, outPath, hopsize, fftSize, callbackFunc)
 	}
 
-	init { | file_, outPath_, hopsize_, callbackFunc_|
+	init { | file_, outPath_, hopsize_, fftSize_, callbackFunc_|
 		file = file_;
 		outPath = outPath_;
 		hopsize = hopsize_;
+		fftSize = fftSize_;
 		callbackFunc = callbackFunc_;
 		this.analysisSynths();
 		this.listener();
@@ -50,7 +52,7 @@ Analysis_PV {
 			soundBuf = Buffer.readChannel(Server.default, file, channels: 0); // For now just mono
 			(Server.default).sync;
 			nChans = soundBuf.numChannels;
-			analysisBuf = Buffer.alloc(Server.default, soundFile.duration.calcPVRecSize(1024, hopsize), nChans);
+			analysisBuf = Buffer.alloc(Server.default, soundFile.duration.calcPVRecSize(fftSize, hopsize), nChans);
 			"Analysis buffer for target file allocated".postln;
 			(Server.default).sync;
 			this.analyze();
@@ -75,19 +77,19 @@ Analysis_PV {
 	}
 
 	analysisSynths {
-		SynthDef(\pvrecStereo, { |soundBuf=0, analysisBuf=0, frameSize=1024|
+		SynthDef(\pvrecStereo, { |soundBuf=0, analysisBuf=0|
 			// Number of channels must match (not possible to pass as argument)
 			var sig = PlayBuf.ar(2, soundBuf, BufRateScale.kr(soundBuf), doneAction: 2);
-			var fft = FFT(LocalBuf(frameSize, 2), sig, 0.25, 1);
-			PV_RecordBuf.new(fft, analysisBuf, 0, 1, 0, 0.25, 1);
+			var fft = FFT({LocalBuf(fftSize) } ! 2, sig, hopsize, 0);
+			PV_RecordBuf.new(fft, analysisBuf, 0, 1, 0, hopsize, 0);
 			SendReply.kr(Done.kr(sig), '/pv_analysis', 1);
 			// No output, this Synth just does analysis
 		}).add;
-		SynthDef(\pvrecMono, { |soundBuf=0, analysisBuf=0, frameSize=1024|
+		SynthDef(\pvrecMono, { |soundBuf=0, analysisBuf=0|
 			// Number of channels must match (not possible to pass as argument)
 			var sig = PlayBuf.ar(1, soundBuf, BufRateScale.kr(soundBuf), doneAction: 2);
-			var fft = FFT(LocalBuf(frameSize, 1), sig, 0.25, 1);
-			PV_RecordBuf.new(fft, analysisBuf, 0, 1, 0, 0.25, 1);
+			var fft = FFT(LocalBuf(fftSize, 1), sig, hopsize, 0);
+			PV_RecordBuf.new(fft, analysisBuf, 0, 1, 0, hopsize, 0);
 			SendReply.kr(Done.kr(sig), '/pv_analysis', 1);
 			// No output, this Synth just does analysis
 		}).add;
