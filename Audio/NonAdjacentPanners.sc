@@ -1,7 +1,7 @@
 /*_____________________________________________________________
 
 dbLib [additions to SuperCollider]
-Copyright (C) <2015>
+Copyright (C) <2015-17>
 
 by Darien Brito
 http://www.darienbrito.com
