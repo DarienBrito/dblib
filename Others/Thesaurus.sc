@@ -5,7 +5,7 @@ Thesaurus {
 	*load { | synthDefsPath |
 		var sp;
 		if (synthDefsPath.isNil) {
-			path = "/Users/darienbrito/Documents/SuperCollider/SCThesaurus/"; // ad yours here
+			path = "/Users/darienbrito/Documents/SuperCollider/SCThesaurus/"; // add yours here
 		} {
 			path = synthDefsPath;
 		};
@@ -13,7 +13,7 @@ Thesaurus {
 		synthsFolderPath = path +/+ "SynthDefs";
 		synthsFullPath = ( synthsFolderPath +/+ "*").pathMatch;
 		synthsFullPath.do{|p| 	thisProcess.interpreter.compileFile(p).value; fileNames.add(PathName.new(p).fileName) };
-		synthdefs = ~synthDefs; // hacky, but works. This object is defined as an even on startup.scd
+		synthdefs = ~synthDefs; // hacky, but works. This object is defined as an event on startup.scd
 		// Every document is prepared with sub-events that organize the Thesaurus, this is because SyntDefs
 		// are declared by the user every time and cannot be known before they are added, unless stored in disk,
 		// which we do not want to do as it is not recommended in the new SC system.
