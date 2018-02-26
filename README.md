@@ -1,4 +1,4 @@
-#dblib#
+# dblib
 ________________________________________________________________________
 
 Some additions and utilities for SuperCollider
