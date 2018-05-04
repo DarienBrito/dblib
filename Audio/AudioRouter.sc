@@ -46,6 +46,14 @@ AudioRouter {
 		outs.postln;
 	}
 
+	*getIns {
+		^ServerOptions.inDevices;
+	}
+
+	*getOuts {
+		^ServerOptions.outDevices;
+	}
+
 	setRoutes {|in, out|
 		Server.default.options.inDevice_(in);
 		Server.default.options.outDevice_(out);

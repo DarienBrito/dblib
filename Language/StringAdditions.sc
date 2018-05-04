@@ -25,6 +25,11 @@ ________________________________________________________________*/
 
 + String {
 
+	// Repeat the given string N times
+	repeat { | n |
+		^"%".format((this ! n).join);
+	}
+
 	// Transform a hex string to decimal base
 	hex2decimal {
 		var string = this.toUpper;
@@ -39,3 +44,5 @@ ________________________________________________________________*/
 	}
 
 }
+
+

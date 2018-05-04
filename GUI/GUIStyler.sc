@@ -131,13 +131,16 @@ GUIStyler {
 		.editable_(false)
 	}
 
-	getSizableText { |parent, text, width, align = \center, fontSize = 10, bold = false|
+	getSizableText { |parent, text, width, align = \center, fontSize = 10, bold = false, bgcolor|
+		var c;
+		if(bgcolor == nil) { c = backgroundColor; } { c = bgcolor; };
+
 		^StaticText(parent, width@gadgetHeight)
 		.align_(align)
 		.font_(Font(fontType, fontSize, bold))
 		.string_( text )
 		.stringColor_(stringColor)
-		.background_(backgroundColor);
+		.background_(c);
 	}
 
 	getSlider { |parent, orientation = \v|
