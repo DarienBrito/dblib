@@ -122,6 +122,14 @@ GUIStyler {
 		.background_(backgroundColor);
 	}
 
+	getTextField { |parent, size|
+		^TextField(parent, size)
+		.align_(\left)
+		.font_(font)
+		.stringColor_(stringColor)
+		.background_(backgroundColor)
+	}
+
 	getMultiLineText {|parent, bounds, fontSize = 10|
 		^TextView(parent, bounds)
 		.font_(Font(fontType, fontSize))
