@@ -44,6 +44,7 @@ AudioRouter {
 		ins.postln;
 		"Out devices:".postln;
 		outs.postln;
+		^[ins, outs];
 	}
 
 	*getIns {
